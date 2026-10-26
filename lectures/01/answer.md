@@ -8,7 +8,14 @@
 
 ## 宿題
 
-- 取り組んだレベル：基礎 / 実装 / 発展
-- やったこと：
+- 取り組んだレベル：基礎 
+- やったこと：モデル・temperatureを変更して、応答の変化をみる
 - 結果：
+トークン数の比較
+gemini-3.5-flash-lite : input=7 output=582
+gemini-3.5-flash : input=7 output=698
+gemini-3.5-flash-lite(temp = 1.0) input=7 output=598
 - 気づき・疑問：
+flash-liteに比べて、flashの方がトークン数が多くなっている。
+出力された内容も、flashの方が長くなっており、具体例などが構造化された出力で、内容が増加している。
+temperatureを1.0にしたモデルでは、内容の大まかな内容は変化していないが、砕けた表現になっているところが多く感じる。
