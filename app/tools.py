@@ -6,10 +6,12 @@
 
 import json
 import random
+from datetime import datetime, timezone
 from functools import cache
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+LEARNING_LOG_DIR = Path(__file__).resolve().parent.parent / "learning_log"
 MAX_RESULTS = 3
 
 
@@ -96,5 +98,23 @@ def make_quiz(lecture: int) -> str:
         },
         ensure_ascii=False,
     )
+
+
+def save_learning_log(topic: str, content: str) -> str:
+    """学んだ内容を学習ログに保存する。
+
+    学習内容を記録してほしいと頼まれたときに使う。topic は記録の題名、
+    content は学んだことや気づきを指定する。保存には利用者の承認が必要。
+    """
+    if not topic.strip():
+        return "学習ログの題名が空です。topic を指定してください。"
+    if not content.strip():
+        return "学習ログの内容が空です。content を指定してください。"
+
+    LEARNING_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S-%f")
+    path = LEARNING_LOG_DIR / f"{timestamp}.md"
+    path.write_text(f"# {topic.strip()}\n\n{content.strip()}\n", encoding="utf-8")
+    return f"学習ログを保存しました: {path}"
 
 
